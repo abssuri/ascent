@@ -1,10 +1,15 @@
 """Combatant runtime state: hp, block, and the damage model.
 
 Block absorbs incoming damage before hp and is spent as it absorbs; hp floors at
-zero. Block does not persist across turns: ``start_turn`` clears it.
+zero. Block does not persist across turns: ``start_turn`` clears it. An enemy is
+a combatant that also carries a move set and a telegraphed intent.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
+
+from ascent.core.intents import Intent
 
 
 @dataclass
@@ -25,3 +30,9 @@ class Combatant:
     @property
     def is_dead(self) -> bool:
         return self.hp <= 0
+
+
+@dataclass
+class EnemyCombatant(Combatant):
+    moves: tuple[Intent, ...] = ()
+    intent: Intent | None = None
