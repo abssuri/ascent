@@ -11,8 +11,8 @@ from collections.abc import Iterator
 os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
 os.environ.setdefault("SDL_AUDIODRIVER", "dummy")
 
-import pygame  # noqa: E402
-import pytest  # noqa: E402
+import pygame
+import pytest
 
 
 @pytest.fixture(scope="session", autouse=True)
