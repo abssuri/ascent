@@ -1,9 +1,9 @@
 [project]
 name = "ascent"
 version = "0.0.1"
-description = "2D roguelike deck-builder (pygame-ce)"
+description = "Terminal roguelike deck-builder (Textual)"
 requires-python = ">=3.11"
-dependencies = ["pygame-ce>=2.5"]
+dependencies = ["textual>=0.60"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10"]
@@ -35,10 +35,6 @@ files = ["src", "tests"]
 strict = true
 warn_unreachable = true
 warn_redundant_casts = true
-
-[[tool.mypy.overrides]]
-module = ["pygame.*"]
-ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "8.0"
