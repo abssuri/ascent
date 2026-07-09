@@ -1,0 +1,48 @@
+[project]
+name = "ascent"
+version = "0.0.1"
+description = "2D roguelike deck-builder (pygame-ce)"
+requires-python = ">=3.11"
+dependencies = ["pygame-ce>=2.5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10"]
+
+[project.scripts]
+ascent = "ascent.__main__:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "C4", "PTH", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src", "tests"]
+strict = true
+warn_unreachable = true
+warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+module = ["pygame.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+# No -x / --maxfail: a hook blocks fail-fast and the definition of done requires
+# the whole suite to run.
+addopts = "-ra -q"
+testpaths = ["tests"]
