@@ -20,6 +20,7 @@ from ascent.core.combat import CombatState
 from ascent.core.entities import EnemyCombatant
 from ascent.core.map import NodeType
 from ascent.core.run import Run
+from ascent.ui.combat_view import render_combat
 
 
 def _start_combat(run: Run, enemy: EnemyCombatant) -> CombatState:
@@ -98,7 +99,11 @@ class CombatScreen(_TextScreen):
         Binding("4", "play(3)", "Play 4"),
         Binding("5", "play(4)", "Play 5"),
         Binding("e", "end_turn", "End turn"),
+        Binding("q", "quit_game", "Quit"),
     ]
+
+    def action_quit_game(self) -> None:
+        self.app.exit()
 
     def action_play(self, index: int) -> None:
         combat = self.game.combat
@@ -132,21 +137,7 @@ class CombatScreen(_TextScreen):
         combat = self.game.combat
         if combat is None:
             return ""
-        player = combat.player
-        lines = [
-            f"hp {player.hp}/{player.max_hp}    block {player.block}    "
-            f"energy {combat.energy}/{combat.max_energy}",
-            "",
-        ]
-        for enemy in combat.living_enemies:
-            intent = enemy.intent
-            telegraph = f"{intent.kind.value} {intent.amount}" if intent else "-"
-            lines.append(f"{enemy.name}    hp {enemy.hp}/{enemy.max_hp}    intent {telegraph}")
-        lines.append("")
-        for position, card in enumerate(combat.hand, start=1):
-            lines.append(f"[{position}] {card.name} (cost {card.cost})")
-        lines += ["", "[1-5] play card    [e] end turn"]
-        return "\n".join(lines)
+        return render_combat(combat)
 
 
 class RewardScreen(_TextScreen):
